@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work-Life Balance Assessment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        button {
+            place-items: center;
+            font-size: 50px;
+            background-position: center;
+            text-align: center;
+            background-color: #4CAF50;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .quiz-container, .results-container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        ul li {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Landing Page -->
+    <header>
+        <h1>Welcome to Your Work-Life Balance Assessment</h1>
+        <p>Take a quick quiz to see how balanced your work and personal life are. Your results will help you identify areas for improvement.</p>
+        <a href="#quiz" class="btn">Start the Quiz</a>
+    </header>
+
+    <div id="quiz" class="quiz-container" style="display:none;">
+        <h1>Work-Life Balance Quiz</h1>
+        <p>Answer the following questions to assess your work-life balance.</p>
+        <form id="quizForm">
+            <h2>Question 1: How often do you feel stressed about work?</h2>
+            <label><input type="radio" name="q1" value="3"> Never</label><br>
+            <label><input type="radio" name="q1" value="2"> Occasionally</label><br>
+            <label><input type="radio" name="q1" value="1"> Frequently</label><br>
+
+            <h2>Question 2: How much time do you dedicate to personal activities?</h2>
+            <label><input type="radio" name="q2" value="3"> A lot</label><br>
+            <label><input type="radio" name="q2" value="2"> Some</label><br>
+            <label><input type="radio" name="q2" value="1"> Very little</label><br>
+
+            <h2>Question 3: Do you regularly take breaks during your workday?</h2>
+            <label><input type="radio" name="q3" value="3"> Yes</label><br>
+            <label><input type="radio" name="q3" value="2"> Sometimes</label><br>
+            <label><input type="radio" name="q3" value="1"> No</label><br>
+        </form>
+
+        <button type="button" onclick="calculateResult()">Submit</button>
+
+    </div>
+
+    <!-- Results Page (Initially Hidden) -->
+    <div id="results" class="results-container" style="display:none;">
+        <h1>Your Work-Life Balance Results</h1>
+        <h2>Your Score: <span id="score">-</span></h2>
+        <p id="feedback"></p>
+
+        <h3>Improvement Tips</h3>
+        <ul>
+            <li>Try setting clearer boundaries between work and personal time.</li>
+            <li>Make time for self-care and relaxation.</li>
+            <li>Consider practicing time management techniques to reduce work-related stress.</li>
+        </ul>
+
+        <a href="#quiz" class="btn" onclick="resetQuiz()">Retake the Quiz</a>
+        <a href="burnoutbuddy.html">GO TO HOME PAGE</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Work-Life Balance Assessment</p>
+    </footer>
+
+    <script>
+        // Show quiz after clicking the "Start the Quiz" button on landing page
+        document.querySelector('.btn').onclick = function() {
+            document.querySelector('header').style.display = 'none';
+            document.getElementById('quiz').style.display = 'block';
+        };
+
+        // Calculate and display the result after submitting the quiz
+        function calculateResult() {
+            const form = document.getElementById('quizForm');
+            const answers = form.querySelectorAll('input[type="radio"]:checked');
+            let score = 0;
+            answers.forEach(answer => {
+                score += parseInt(answer.value);
+            });
+
+            // Show results
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+
+            // Display score
+            const scoreElement = document.getElementById('score');
+            scoreElement.textContent = score;
+
+            // Feedback based on score
+            const feedbackElement = document.getElementById('feedback');
+            let feedback = '';
+            if (score >= 7) {
+                feedback = 'Excellent! You have a healthy work-life balance.';
+            } else if (score >= 4) {
+                feedback = 'Good job! But there are some areas you can improve.';
+            } else {
+                feedback = 'Needs Improvement. Take some time to reassess your balance.';
+            }
+            feedbackElement.textContent = feedback;
+
+            // Store score in localStorage (optional for tracking purposes)
+            localStorage.setItem('score', score);
+        }
+
+        // Reset quiz page for retake
+        function resetQuiz() {
+            document.getElementById('quiz').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('quizForm').reset();
+        }
+
+    </script>
+</body>
+</html>
